@@ -1,0 +1,10 @@
+Topic: Toyota Motor Corporation
+
+Summary:
+Toyota is a Japanese multinational automotive manufacturer and the world's largest automaker by production volume. Founded in 1937 by Kiichiro Toyoda and headquartered in Toyota City, Japan, the company produces a diverse range of vehicles including passenger cars, pickup trucks, and commercial vehicles. Toyota operates under several brands, including Toyota, Lexus, Daihatsu, Hino, and Century. They are well-known for pioneering hybrid technology with the Prius and for producing the Corolla, which is the world's all-time best-selling automobile. Additionally, the company manufactures hydrogen fuel cell vehicles and is part of the larger Toyota Group conglomerate.
+
+Sources:
+- https://en.wikipedia.org/wiki/Toyota
+
+Tools Used:
+- wikipedia
