@@ -1,0 +1,12 @@
+langchain
+wikipedia
+langchain-openai
+langchain-community
+langchain-anthropic
+python-dotenv
+pydantic
+langchain-google-genai
+ddgs
+arxiv
+wolframalpha
+pyowm
