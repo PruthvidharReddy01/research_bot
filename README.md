@@ -1,26 +1,52 @@
+Here’s your **same README style**, but cleanly updated with **RAG as the main highlighted feature** (without changing your tone/structure too much):
+
+---
+
 # Research Bot 🚀
 
-An AI-powered **Research ChatBot** built using **Python, LangChain, and Google Gemini API** that helps users perform quick research using multiple tools like Wikipedia, DuckDuckGo, Arxiv, and a Calculator.
+An AI-powered **Hybrid Research ChatBot** built using **Python, LangChain, and Google Gemini API**.
 
-This project is more than just a chatbot — it is a beginner-friendly step into the world of **AI Agents, Prompt Engineering, Tool Calling, Structured Output Parsing, and Automation**.
+🚀 The core of this project is **Retrieval-Augmented Generation (RAG)** — enabling the chatbot to answer questions using your own documents along with real-time external knowledge.
 
-The bot takes a user query, performs research using available tools, structures the response using Pydantic models, and automatically saves the final output into a text file for future reference.
+It helps users perform deep research by combining:
+
+* 📄 Knowledge from uploaded files (RAG)
+* 🌐 External tools like Wikipedia, DuckDuckGo, Arxiv
+* 🧠 LLM reasoning using Gemini
+
+This project is more than just a chatbot — it is a beginner-friendly step into the world of **AI Agents, Prompt Engineering, RAG Systems, Tool Calling, Structured Output Parsing, and Automation**.
+
+The bot takes a user query, retrieves relevant information from documents, enhances it with tools, structures the response using Pydantic models, and automatically saves the final output into a text file.
 
 ---
 
 ## ✨ Features
 
-* AI-powered research assistant using Gemini API
-* Uses multiple tools for better answers:
+* 📄 **Retrieval-Augmented Generation (RAG) – Core Feature**
+
+  * Answers questions using your own knowledge base
+  * Supports multiple file types:
+
+    * `.pdf`, `.docx`, `.txt`, `.csv`, `.xlsx`
+  * Uses embeddings + FAISS vector database
+
+* 🌐 External Tools for Better Research
 
   * Wikipedia Search
   * DuckDuckGo Search
   * Arxiv Research Papers
   * Calculator Tool
+
+* 🧠 Hybrid AI System (RAG + Tools + LLM)
+
 * Prompt Engineering with custom prompt templates
+
 * Structured output using Pydantic
+
 * Automatic parsing and cleanup of LLM responses
+
 * Saves final formatted output into `research_output.txt`
+
 * Beginner-friendly and easy to understand
 
 ---
@@ -30,6 +56,7 @@ The bot takes a user query, performs research using available tools, structures 
 * Python
 * LangChain
 * Google Gemini API
+* FAISS (Vector Database)
 * Pydantic
 * DuckDuckGo Search
 * Wikipedia API
@@ -43,8 +70,10 @@ The bot takes a user query, performs research using available tools, structures 
 ```bash
 research_bot/
 │
-├── main.py                 # Main chatbot logic
+├── main.py                 # Main chatbot logic (RAG + Tools)
+├── rag.py                  # RAG pipeline (multi-file loader + FAISS)
 ├── tools.py                # Tool definitions
+├── documents/              # Your knowledge base (PDF, DOCX, etc.)
 ├── .env                    # API keys
 ├── requirements.txt        # Required packages
 ├── research_output.txt     # Generated output file
@@ -100,11 +129,18 @@ langchain-core
 langchain-community
 langchain-google-genai
 langchain-classic
+langchain-text-splitters
 python-dotenv
 pydantic
 wikipedia
 duckduckgo-search
 arxiv
+faiss-cpu
+pypdf
+docx2txt
+python-docx
+openpyxl
+pandas
 ```
 
 Then run:
@@ -138,7 +174,34 @@ python main.py
 Example:
 
 ```bash
-Enter your research query: Who is the Prime Minister of India?
+Enter your research query: Summarize my uploaded document
+```
+
+---
+
+## 💡 Example Use Cases
+
+### 📄 Document-Based (RAG)
+
+```bash
+Summarize my uploaded document
+Explain key concepts from my notes
+What are the main findings in my file?
+```
+
+### 🌐 General Knowledge
+
+```bash
+What is Artificial Intelligence?
+Explain supply chain optimization
+Who is the Prime Minister of India?
+```
+
+### 🔥 Hybrid (Best Use Case)
+
+```bash
+Compare my uploaded notes with current AI trends
+Use my documents and research papers to explain this topic
 ```
 
 ---
@@ -154,18 +217,19 @@ research_output.txt
 Example output:
 
 ```txt
-Topic: Prime Minister of India
+Topic: Artificial Intelligence
 
 Summary:
-Narendra Modi is the Prime Minister of India...
+Artificial Intelligence (AI) refers to systems that simulate human intelligence...
 
 Sources:
 - Wikipedia
-- DuckDuckGo
+- Arxiv
+- Internal Documents
 
 Tools Used:
 - Wikipedia Tool
-- Search Tool
+- DuckDuckGo Search
 ```
 
 ---
@@ -177,8 +241,10 @@ This project helped me understand:
 * How AI Agents work behind the scenes
 * Prompt Engineering and prompt templates
 * Tool Calling with LangChain
+* **Retrieval-Augmented Generation (RAG)**
+* Vector databases (FAISS)
+* Multi-file document processing
 * Structured output parsing
-* Response cleaning and reliability improvement
 * Building real-world AI applications from scratch
 
 This is just the beginning — I plan to build more advanced AI Agents and complex chatbots that solve real-world problems and can potentially grow into startup-level products.
@@ -188,6 +254,7 @@ This is just the beginning — I plan to build more advanced AI Agents and compl
 ## 🔮 Future Improvements
 
 * Add Memory to the chatbot
+* Persistent vector database (avoid recomputation)
 * PDF report generation
 * Web UI using Streamlit or React
 * Multi-Agent workflow
@@ -214,9 +281,11 @@ Feel free to fork the project, improve it, and submit a pull request.
 
 ## ⭐ Final Note
 
-AI Agents are the future.
+AI Agents + RAG systems are the future.
 
-This project may be simple, but it represents a much bigger vision — building intelligent systems that can help people, automate work, and create real impact.
+This project may look simple — but it represents a powerful concept of combining:
+
+👉 **LLMs + Tools + Knowledge Bases**
 
 Small project today.
 Bigger vision tomorrow. 🚀
