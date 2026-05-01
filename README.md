@@ -1,7 +1,3 @@
-Here’s your **same README style**, but cleanly updated with **RAG as the main highlighted feature** (without changing your tone/structure too much):
-
----
-
 # Research Bot 🚀
 
 An AI-powered **Hybrid Research ChatBot** built using **Python, LangChain, and Google Gemini API**.
