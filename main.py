@@ -8,16 +8,31 @@ from langchain_classic.agents import create_react_agent, AgentExecutor
 from tools import tools
 from rag import create_vectorstore
 
+from flask import Flask, request
+from slack_bolt import App
+from slack_bolt.adapter.flask import SlackRequestHandler
+
+import os
 import json
 import re
+import requests
 
 load_dotenv(override=True)
+
+# Slack App
+slack_app = App(
+    token=os.getenv("SLACK_BOT_TOKEN"),
+    signing_secret=os.getenv("SLACK_SIGNING_SECRET")
+)
+
+# Flask App
+flask_app = Flask(__name__)
+handler = SlackRequestHandler(slack_app)
 
 class ResearchResponse(BaseModel):
     topic: str
     summary: str
     sources: list[str]
-    tools_used: list[str]
 
 llm = ChatGoogleGenerativeAI(
     model="gemini-3-flash-preview"
@@ -93,73 +108,162 @@ agent_executor = AgentExecutor(
     handle_parsing_errors=True
 )
 
-query = input("Enter your research query: ")
-
-# RAG: Retrieve relevant context
-rag_context = "No document context available."
-
-if retriever:
-    try:
-        relevant_docs = retriever.invoke(query)
-
-        if relevant_docs:
-            rag_context = "\n\n".join(
-                [doc.page_content for doc in relevant_docs[:3]]
-            )
-
-    except Exception as e:
-        rag_context = f"RAG Error: {str(e)}"
-
-response = agent_executor.invoke(
-    {
-        "input": query,
-        "rag_context": rag_context
-    }
-)
-
-raw_output = response["output"]
-
-print("\nFinal Response:\n")
-print(raw_output)
-
 def clean_text(text):
     cleaned = text.strip()
     cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
     cleaned = re.sub(r"\s*```$", "", cleaned)
     return cleaned.strip()
 
-cleaned_output = clean_text(raw_output)
-parsed_response = None
 
-try:
-    parsed_response = parser.parse(cleaned_output)
+@slack_app.event("app_mention")
+def handle_mentions(body, say):
 
-except Exception:
+    global vectorstore
+    global retriever
+
+    query = body["event"]["text"]
+
+    query = query.split(">")[1].strip()
+
+    uploaded_file_context = ""
+
+    if "files" in body["event"]:
+
+        os.makedirs("uploaded_docs", exist_ok=True)
+
+        for file in body["event"]["files"]:
+
+            try:
+                file_url = file["url_private_download"]
+                file_name = file["name"]
+                headers = {
+                    "Authorization": f"Bearer {os.getenv('SLACK_BOT_TOKEN')}"
+                }
+                response = requests.get(
+                    file_url,
+                    headers=headers,
+                    allow_redirects=True
+                )
+                content_type = response.headers.get(
+                    "Content-Type",
+                    ""
+                )
+                print(f"Downloaded Content-Type: {content_type}")
+                if "text/html" in content_type:
+
+                    print(
+                        f"Failed downloading actual file: {file_name}"
+                    )
+
+                    continue
+
+                file_path = os.path.join(
+                    "uploaded_docs",
+                    file_name
+                )
+
+                with open(file_path, "wb") as f:
+                    f.write(response.content)
+
+                uploaded_file_context += (
+                    f"\nUploaded File: {file_name}"
+                )
+
+                print(f"Downloaded Slack file: {file_name}")
+
+            except Exception as e:
+                print(f"Slack File Error: {str(e)}")
+        vectorstore = create_vectorstore()
+
+        if vectorstore:
+            retriever = vectorstore.as_retriever()
+    rag_context = "No document context available."
+
+    if retriever:
+        try:
+            relevant_docs = retriever.invoke(query)
+
+            if relevant_docs:
+                rag_context = "\n\n".join(
+                    [doc.page_content for doc in relevant_docs[:3]]
+                )
+
+        except Exception as e:
+            rag_context = f"RAG Error: {str(e)}"
+
+    rag_context += uploaded_file_context
+
+    response = agent_executor.invoke(
+        {
+            "input": query,
+            "rag_context": rag_context
+        }
+    )
+
+    raw_output = response["output"]
+
+    print("\nFinal Response:\n")
+    print(raw_output)
+
+    cleaned_output = clean_text(raw_output)
+    parsed_response = None
+
     try:
-        parsed_response = ResearchResponse(
-            **json.loads(cleaned_output)
-        )
+        parsed_response = parser.parse(cleaned_output)
+
     except Exception:
-        parsed_response = None
+        try:
+            parsed_response = ResearchResponse(
+                **json.loads(cleaned_output)
+            )
+        except Exception:
+            parsed_response = None
 
-with open("research_output.txt", "w", encoding="utf-8") as file:
+    with open("research_output.txt", "w", encoding="utf-8") as file:
 
-    if parsed_response:
+        if parsed_response:
 
-        file.write(f"Topic: {parsed_response.topic}\n\n")
+            file.write(f"Topic: {parsed_response.topic}\n\n")
 
-        file.write(f"Summary:\n{parsed_response.summary}\n\n")
+            file.write(
+                f"Summary:\n{parsed_response.summary}\n\n"
+            )
 
-        file.write("Sources:\n")
-        for source in parsed_response.sources:
-            file.write(f"- {source}\n")
+            file.write("Sources:\n")
 
-        file.write("\nTools Used:\n")
-        for tool in parsed_response.tools_used:
-            file.write(f"- {tool}\n")
+            for source in parsed_response.sources:
+                file.write(f"- {source}\n")
 
-    else:
-        file.write("Could not parse structured output.\n\n")
-        file.write(raw_output)
+            final_response = f"""
+*Topic:* {parsed_response.topic}
 
-print("\nSaved to research_output.txt successfully")
+*Summary:*
+{parsed_response.summary}
+
+*Sources:*
+""" + "\n".join(
+                [f"• {source}" for source in parsed_response.sources]
+            )
+
+        else:
+
+            file.write(
+                "Could not parse structured output.\n\n"
+            )
+
+            file.write(raw_output)
+
+            final_response = raw_output
+
+    print("\nSaved to research_output.txt successfully")
+
+    say(final_response)
+
+
+@flask_app.route("/slack/events", methods=["POST"])
+def slack_events():
+    return handler.handle(request)
+
+
+if __name__ == "__main__":
+    flask_app.run(port=3000)
