@@ -1,58 +1,151 @@
-# Research Bot 🚀
+# Slack Integrated Research Bot 🚀
 
-An AI-powered **Hybrid Research ChatBot** built using **Python, LangChain, and Google Gemini API**.
+An AI-powered **Hybrid Research & Reasoning ChatBot** built using **Python, LangChain, Google Gemini API, RAG, and Slack Integration**. 
 
-🚀 The core of this project is **Retrieval-Augmented Generation (RAG)** — enabling the chatbot to answer questions using your own documents along with real-time external knowledge.
+🚀 The core of this project is **Retrieval-Augmented Generation (RAG)** combined with a **tool-using AI reasoning agent** — enabling the chatbot to answer questions using:
 
-It helps users perform deep research by combining:
+* 📄 Internal knowledge bases and uploaded files
+* 🌐 Real-time external web research
+* 🧠 LLM reasoning and tool calling
+* 💬 Slack workspace integration
 
-* 📄 Knowledge from uploaded files (RAG)
-* 🌐 External tools like Wikipedia, DuckDuckGo, Arxiv
-* 🧠 LLM reasoning using Gemini
+This is not just a normal chatbot.
 
-This project is more than just a chatbot — it is a beginner-friendly step into the world of **AI Agents, Prompt Engineering, RAG Systems, Tool Calling, Structured Output Parsing, and Automation**.
+The bot acts like an **AI Research Assistant** that can:
 
-The bot takes a user query, retrieves relevant information from documents, enhances it with tools, structures the response using Pydantic models, and automatically saves the final output into a text file.
+* think step-by-step,
+* use tools when necessary,
+* retrieve information from uploaded company documents,
+* search the web for live information,
+* reason over both together,
+* and provide structured research-style outputs.
 
----
+The system is heavily inspired by modern AI agent architectures like:
 
-## ✨ Features
-
-* 📄 **Retrieval-Augmented Generation (RAG) – Core Feature**
-
-  * Answers questions using your own knowledge base
-  * Supports multiple file types:
-
-    * `.pdf`, `.docx`, `.txt`, `.csv`, `.xlsx`
-  * Uses embeddings + FAISS vector database
-
-* 🌐 External Tools for Better Research
-
-  * Wikipedia Search
-  * DuckDuckGo Search
-  * Arxiv Research Papers
-  * Calculator Tool
-
-* 🧠 Hybrid AI System (RAG + Tools + LLM)
-
-* Prompt Engineering with custom prompt templates
-
-* Structured output using Pydantic
-
-* Automatic parsing and cleanup of LLM responses
-
-* Saves final formatted output into `research_output.txt`
-
-* Beginner-friendly and easy to understand
+* ChatGPT Deep Research
+* Perplexity AI
+* Enterprise Slack AI Assistants
+* RAG-based copilots
 
 ---
 
-## 🛠 Tech Stack
+# ✨ Features
+
+## 📄 Retrieval-Augmented Generation (RAG)
+
+The bot can answer questions using your own knowledge base.
+
+Supports:
+
+* `.pdf`
+* `.docx`
+* `.txt`
+* `.csv`
+* `.xlsx`
+
+Uses:
+
+* embeddings
+* chunking
+* FAISS vector database
+* semantic retrieval
+
+---
+
+## 💬 Slack Workspace Integration
+
+The chatbot is fully integrated into Slack.
+
+Users can:
+
+* mention the bot directly,
+* ask research questions,
+* upload PDFs/documents,
+* and receive AI-generated responses inside Slack channels.
+
+### Slack Features
+
+* Slack bot integration
+* Real-time event handling
+* File upload support
+* Automatic PDF/document ingestion
+* Instant RAG refresh after uploads
+* Enterprise-style AI assistant workflow
+
+---
+
+## 🌐 External Research Tools
+
+The AI agent can dynamically use external tools:
+
+* Wikipedia Search
+* DuckDuckGo Search
+* Arxiv Research Papers
+* Calculator Tool
+
+This creates a hybrid reasoning system that combines:
+
+* internal company knowledge
+* external internet knowledge
+* AI reasoning
+
+---
+
+## 🧠 AI Reasoning Agent (ReAct Agent)
+
+The project uses a **ReAct-style AI agent**.
+
+The bot can:
+
+* think step-by-step,
+* decide when tools are needed,
+* search external sources,
+* retrieve internal knowledge,
+* combine information,
+* and generate structured outputs.
+
+This is much more advanced than a basic chatbot.
+
+---
+
+## 📦 Structured Output Generation
+
+Uses:
+
+* Pydantic
+* output parsing
+* automatic response cleanup
+
+The final response is:
+
+* structured,
+* formatted,
+* and saved automatically.
+
+---
+
+## 📂 Automatic Knowledge Base System
+
+Uploaded Slack documents are:
+
+1. downloaded automatically,
+2. stored locally,
+3. converted into embeddings,
+4. indexed into FAISS,
+5. instantly available for RAG retrieval.
+
+No manual retraining required.
+
+---
+
+# 🛠 Tech Stack
 
 * Python
 * LangChain
 * Google Gemini API
-* FAISS (Vector Database)
+* FAISS Vector Database
+* Flask
+* Slack Bolt SDK
 * Pydantic
 * DuckDuckGo Search
 * Wikipedia API
@@ -61,26 +154,27 @@ The bot takes a user query, retrieves relevant information from documents, enhan
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
 ```bash
 research_bot/
 │
-├── main.py                 # Main chatbot logic (RAG + Tools)
-├── rag.py                  # RAG pipeline (multi-file loader + FAISS)
+├── main.py                 # Main AI agent + Slack integration
+├── rag.py                  # RAG pipeline + FAISS vectorstore
 ├── tools.py                # Tool definitions
-├── documents/              # Your knowledge base (PDF, DOCX, etc.)
-├── .env                    # API keys
-├── requirements.txt        # Required packages
-├── research_output.txt     # Generated output file
+├── documents/              # Static knowledge base
+├── uploaded_docs/          # Slack uploaded files
+├── .env                    # API keys & Slack secrets
+├── requirements.txt
+├── research_output.txt
 └── README.md
 ```
 
 ---
 
-## ⚙️ Installation
+# ⚙️ Installation
 
-### 1. Clone the Repository
+## 1. Clone Repository
 
 ```bash
 git clone https://github.com/PruthvidharReddy01/research_bot.git
@@ -89,7 +183,7 @@ cd research_bot
 
 ---
 
-### 2. Create Virtual Environment
+## 2. Create Virtual Environment
 
 ### Windows
 
@@ -107,7 +201,7 @@ source venv/bin/activate
 
 ---
 
-### 3. Install Requirements
+## 3. Install Requirements
 
 ```bash
 pip install -r requirements.txt
@@ -115,173 +209,290 @@ pip install -r requirements.txt
 
 ---
 
-## 📦 requirements.txt
-
-Create a file named `requirements.txt` and add:
+# 📦 requirements.txt
 
 ```txt
 langchain
 langchain-core
 langchain-community
-langchain-google-genai
 langchain-classic
+langchain-google-genai
 langchain-text-splitters
+
 python-dotenv
 pydantic
+
 wikipedia
 duckduckgo-search
+ddgs
 arxiv
+
 faiss-cpu
+tiktoken
+
 pypdf
 docx2txt
 python-docx
 openpyxl
 pandas
-```
+unstructured
 
-Then run:
-
-```bash
-pip install -r requirements.txt
+flask
+slack_bolt
+requests
 ```
 
 ---
 
-## 🔑 Environment Variables
+# 🔑 Environment Variables
 
-Create a `.env` file in the root folder:
+Create a `.env` file:
 
 ```env
-GOOGLE_API_KEY=your_google_gemini_api_key_here
+GOOGLE_API_KEY=your_google_api_key
+
+SLACK_BOT_TOKEN=your_slack_bot_token
+SLACK_SIGNING_SECRET=your_slack_signing_secret
 ```
-
-You can get your Gemini API key from:
-
-**Google AI Studio**
 
 ---
 
-## ▶️ Run the Project
+# 💬 Slack Setup
+
+## Create Slack App
+
+Go to:
+
+[Slack API Apps Dashboard](https://api.slack.com/apps?utm_source=chatgpt.com)
+
+Create a new app.
+
+---
+
+## Required OAuth Scopes
+
+Add these Bot Token Scopes:
+
+```text
+app_mentions:read
+chat:write
+files:read
+channels:history
+```
+
+Then:
+
+* Install/Reinstall app to workspace
+
+---
+
+## Event Subscriptions
+
+Enable Events.
+
+Set Request URL:
+
+```text
+https://YOUR-NGROK-URL/slack/events
+```
+
+Add Bot Event:
+
+```text
+app_mention
+```
+
+---
+
+# 🌍 ngrok Setup
+
+Since Slack needs a public URL to communicate with your local machine, ngrok is used as a tunnel.
+
+Download ngrok:
+
+[Ngrok Official Website](https://ngrok.com?utm_source=chatgpt.com)
+
+Run:
+
+```bash
+ngrok http 3000
+```
+
+Example:
+
+```text
+https://abcd1234.ngrok-free.app
+```
+
+Use:
+
+```text
+https://abcd1234.ngrok-free.app/slack/events
+```
+
+inside Slack Event Subscriptions.
+
+---
+
+# ▶️ Run The Project
+
+## Start Bot Server
 
 ```bash
 python main.py
 ```
 
-Example:
+---
+
+## Start ngrok
 
 ```bash
-Enter your research query: Summarize my uploaded document
+ngrok http 3000
 ```
 
 ---
 
-## 💡 Example Use Cases
+# 💡 Example Use Cases
 
-### 📄 Document-Based (RAG)
+## 📄 Document Research
 
-```bash
-Summarize my uploaded document
-Explain key concepts from my notes
-What are the main findings in my file?
+```text
+@ResearchBot summarize this PDF
 ```
 
-### 🌐 General Knowledge
-
-```bash
-What is Artificial Intelligence?
-Explain supply chain optimization
-Who is the Prime Minister of India?
-```
-
-### 🔥 Hybrid (Best Use Case)
-
-```bash
-Compare my uploaded notes with current AI trends
-Use my documents and research papers to explain this topic
+```text
+@ResearchBot explain the key insights from this meeting transcript
 ```
 
 ---
 
-## 📄 Output Example
+## 🌐 Web Research
 
-The bot automatically stores results in:
-
-```bash
-research_output.txt
+```text
+@ResearchBot latest AI trends in supply chain
 ```
 
-Example output:
+---
 
-```txt
-Topic: Artificial Intelligence
+## 🔥 Hybrid Research (Best Feature)
+
+```text
+@ResearchBot compare my uploaded document with current AI trends
+```
+
+```text
+@ResearchBot analyze this company transcript and provide market insights
+```
+
+---
+
+# 🧠 Architecture Flow
+
+```text
+Slack User
+   ↓
+Slack Event
+   ↓
+ngrok Tunnel
+   ↓
+Flask Server
+   ↓
+Slack Bolt
+   ↓
+AI Agent
+   ↓
+RAG Retrieval
+   ↓
+Tool Calling
+   ↓
+Gemini Reasoning
+   ↓
+Structured Response
+   ↓
+Slack Reply
+```
+
+---
+
+# 📄 Output Example
+
+```text
+Topic: Strategic Performance Review
 
 Summary:
-Artificial Intelligence (AI) refers to systems that simulate human intelligence...
+The company demonstrated strong revenue growth but faced increasing infrastructure costs...
 
 Sources:
-- Wikipedia
-- Arxiv
-- Internal Documents
-
-Tools Used:
-- Wikipedia Tool
-- DuckDuckGo Search
+• Internal Meeting Transcript
+• Wikipedia
+• Arxiv
 ```
 
 ---
 
-## 🧠 What I Learned
+# 🧠 What I Learned
 
 This project helped me understand:
 
-* How AI Agents work behind the scenes
-* Prompt Engineering and prompt templates
-* Tool Calling with LangChain
-* **Retrieval-Augmented Generation (RAG)**
-* Vector databases (FAISS)
-* Multi-file document processing
+* AI Agents
+* Prompt Engineering
+* Tool Calling
+* RAG Systems
+* Vector Databases
+* Semantic Search
+* Slack API Integration
+* Event-driven systems
+* Webhooks
+* Flask servers
+* ngrok tunneling
 * Structured output parsing
-* Building real-world AI applications from scratch
+* Enterprise AI assistant architecture
 
-This is just the beginning — I plan to build more advanced AI Agents and complex chatbots that solve real-world problems and can potentially grow into startup-level products.
+This project evolved from a simple RAG chatbot into a more advanced:
 
----
-
-## 🔮 Future Improvements
-
-* Add Memory to the chatbot
-* Persistent vector database (avoid recomputation)
-* PDF report generation
-* Web UI using Streamlit or React
-* Multi-Agent workflow
-* Database storage
-* User authentication
-* Advanced research summarization
-* Startup-ready production version
+* reasoning AI system,
+* research assistant,
+* and Slack-integrated enterprise-style AI agent.
 
 ---
 
-## 🤝 Contributing
+# 🔮 Future Improvements
 
-Contributions are always welcome.
-
-Feel free to fork the project, improve it, and submit a pull request.
+* Memory-enabled conversations
+* Persistent vector database
+* ChromaDB integration
+* Multi-agent workflows
+* Voice support
+* React/Next.js frontend
+* Authentication system
+* Cloud deployment
+* Streaming responses
+* Citation system
+* Autonomous research workflows
 
 ---
 
-## 📌 GitHub Repository
+# 🤝 Contributing
 
-[https://github.com/PruthvidharReddy01/research_bot.git](https://github.com/PruthvidharReddy01/research_bot.git)
+Contributions are welcome.
+
+Feel free to fork the project, improve it, and submit pull requests.
 
 ---
 
-## ⭐ Final Note
+# 📌 GitHub Repository
 
-AI Agents + RAG systems are the future.
+[Research Bot GitHub Repository](https://github.com/PruthvidharReddy01/research_bot?utm_source=chatgpt.com)
 
-This project may look simple — but it represents a powerful concept of combining:
+---
 
-👉 **LLMs + Tools + Knowledge Bases**
+# ⭐ Final Note
+
+This project combines:
+
+👉 **LLMs + RAG + Tool Calling + Slack Integration + Knowledge Bases**
+
+to create a modern AI-powered research assistant.
 
 Small project today.
-Bigger vision tomorrow. 🚀
+Much bigger vision tomorrow. 🚀
