@@ -10,7 +10,6 @@ pydantic
 
 wikipedia
 duckduckgo-search
-arxiv
 
 faiss-cpu
 tiktoken
@@ -26,3 +25,14 @@ flask
 slack_bolt
 requests
 ddgs
+
+# Meeting Scheduling
+
+dateparser
+
+# Google Calendar / Google Meet
+
+google-api-python-client
+google-auth
+google-auth-oauthlib
+google-auth-httplib2

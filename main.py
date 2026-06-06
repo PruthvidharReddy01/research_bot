@@ -12,10 +12,15 @@ from flask import Flask, request
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
 
+from meeting import schedule_meeting_handler
+
 import os
 import json
 import re
 import requests
+
+from datetime import datetime
+
 
 load_dotenv(override=True)
 
@@ -67,6 +72,10 @@ You must:
 - provide reliable sources
 - use tools whenever necessary
 - use RAG context whenever relevant
+- If the answer exists in the RAG Context,
+  use the RAG Context first.
+- Do not use external tools when the RAG Context
+  already contains sufficient information.
 
 RAG Context:
 {rag_context}
@@ -113,6 +122,45 @@ def clean_text(text):
     cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
     cleaned = re.sub(r"\s*```$", "", cleaned)
     return cleaned.strip()
+def detect_intent(query):
+
+    query = query.lower()
+
+    scheduling_words = [
+        "schedule",
+        "book",
+        "arrange",
+        "setup",
+        "set up",
+        "create"
+    ]
+
+    meeting_words = [
+        "meeting",
+        "call",
+        "invite"
+    ]
+
+    has_schedule_word = any(
+        word in query
+        for word in scheduling_words
+    )
+
+    has_meeting_word = any(
+        word in query
+        for word in meeting_words
+    )
+
+    if has_schedule_word and has_meeting_word:
+
+        print(
+            "MEETING INTENT DETECTED"
+        )
+
+        return "meeting"
+
+    return "research"
+
 
 
 @slack_app.event("app_mention")
@@ -193,7 +241,23 @@ def handle_mentions(body, say):
 
     rag_context += uploaded_file_context
 
-    response = agent_executor.invoke(
+    intent = detect_intent(query)
+
+    print(
+        "INTENT:",
+        intent
+    )
+
+    if intent == "meeting":
+
+        response = schedule_meeting_handler(
+    query,
+    slack_app.client
+)
+
+    else:
+
+        response = agent_executor.invoke(
         {
             "input": query,
             "rag_context": rag_context
@@ -266,4 +330,4 @@ def slack_events():
 
 
 if __name__ == "__main__":
-    flask_app.run(port=3000)
+    flask_app.run(port=3000,debug=True) 

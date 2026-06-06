@@ -1,12 +1,10 @@
 from langchain_community.tools import (
     WikipediaQueryRun,
     DuckDuckGoSearchRun,
-    ArxivQueryRun,
 )
 
 from langchain_community.utilities import (
     WikipediaAPIWrapper,
-    ArxivAPIWrapper,
 )
 
 from langchain_core.tools import Tool
@@ -29,15 +27,6 @@ wikipedia_tool = WikipediaQueryRun(
 duckduckgo_tool = DuckDuckGoSearchRun()
 
 
-# -----------------------------------
-# Arxiv Research Paper Tool
-# -----------------------------------
-arxiv_tool = ArxivQueryRun(
-    api_wrapper=ArxivAPIWrapper(
-        top_k_results=3,
-        doc_content_chars_max=2000
-    )
-)
 
 
 # -----------------------------------
@@ -89,6 +78,5 @@ Only use for mathematical expressions.
 tools = [
     wikipedia_tool,
     duckduckgo_tool,
-    arxiv_tool,
     calculator_tool
 ]

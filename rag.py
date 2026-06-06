@@ -15,7 +15,22 @@ import os
 
 def create_vectorstore():
 
-    #slack and other knowledge based uploaded files folder paths are stored here for creating vectorss
+    # Load existing FAISS index if already created
+    if os.path.exists("faiss_index"):
+
+        print("Loading existing FAISS index...")
+
+        embeddings = GoogleGenerativeAIEmbeddings(
+            model="models/gemini-embedding-001"
+        )
+
+        return FAISS.load_local(
+            "faiss_index",
+            embeddings,
+            allow_dangerous_deserialization=True
+        )
+
+    # slack and other knowledge based uploaded files folder paths are stored here for creating vectors
     folder_paths = [
         "documents",
         "uploaded_docs"
@@ -23,14 +38,12 @@ def create_vectorstore():
 
     all_docs = []
 
-    
     for folder_path in folder_paths:
 
         if not os.path.exists(folder_path):
             print(f"{folder_path} folder not found.")
             continue
 
-        
         for file in os.listdir(folder_path):
 
             file_path = os.path.join(folder_path, file)
@@ -71,7 +84,6 @@ def create_vectorstore():
         print("No valid documents found.")
         return None
 
-    
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
         chunk_overlap=200
@@ -79,7 +91,6 @@ def create_vectorstore():
 
     split_docs = splitter.split_documents(all_docs)
 
-   
     embeddings = GoogleGenerativeAIEmbeddings(
         model="models/gemini-embedding-001"
     )
@@ -89,6 +100,9 @@ def create_vectorstore():
         embeddings
     )
 
-    print("Vector store created successfully.")
+    # Save FAISS locally so embeddings are not recreated every restart
+    vectorstore.save_local("faiss_index")
+
+    print("Vector store created and saved successfully.")
 
     return vectorstore

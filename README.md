@@ -1,287 +1,317 @@
-# Research Bot 🚀
+# 🚀 New Features Added
 
-An AI-powered **Hybrid Research ChatBot** built using **Python, LangChain, and Google Gemini API**.
+The project has evolved from a standalone Research Bot into a fully integrated **Slack Research Analytics Assistant**.
 
-🚀 The core of this project is **Retrieval-Augmented Generation (RAG)** — enabling the chatbot to answer questions using your own documents along with real-time external knowledge.
+In addition to document-based research and external knowledge retrieval, the bot now supports:
 
-It helps users perform deep research by combining:
-
-* 📄 Knowledge from uploaded files (RAG)
-* 🌐 External tools like Wikipedia, DuckDuckGo, Arxiv
-* 🧠 LLM reasoning using Gemini
-
-This project is more than just a chatbot — it is a beginner-friendly step into the world of **AI Agents, Prompt Engineering, RAG Systems, Tool Calling, Structured Output Parsing, and Automation**.
-
-The bot takes a user query, retrieves relevant information from documents, enhances it with tools, structures the response using Pydantic models, and automatically saves the final output into a text file.
+- Slack Workspace Integration
+- Meeting Transcript Analysis
+- Google Calendar Scheduling
+- Automatic Google Meet Generation
+- Slack User Discovery
+- Meeting Topic Extraction
+- Natural Language Meeting Scheduling
 
 ---
 
-## ✨ Features
+## 💬 Slack Integration
 
-* 📄 **Retrieval-Augmented Generation (RAG) – Core Feature**
+The bot is fully integrated with Slack and can be interacted with directly through mentions.
 
-  * Answers questions using your own knowledge base
-  * Supports multiple file types:
+Users can:
 
-    * `.pdf`, `.docx`, `.txt`, `.csv`, `.xlsx`
-  * Uses embeddings + FAISS vector database
-
-* 🌐 External Tools for Better Research
-
-  * Wikipedia Search
-  * DuckDuckGo Search
-  * Arxiv Research Papers
-  * Calculator Tool
-
-* 🧠 Hybrid AI System (RAG + Tools + LLM)
-
-* Prompt Engineering with custom prompt templates
-
-* Structured output using Pydantic
-
-* Automatic parsing and cleanup of LLM responses
-
-* Saves final formatted output into `research_output.txt`
-
-* Beginner-friendly and easy to understand
-
----
-
-## 🛠 Tech Stack
-
-* Python
-* LangChain
-* Google Gemini API
-* FAISS (Vector Database)
-* Pydantic
-* DuckDuckGo Search
-* Wikipedia API
-* Arxiv API
-* dotenv
-
----
-
-## 📂 Project Structure
-
-```bash
-research_bot/
-│
-├── main.py                 # Main chatbot logic (RAG + Tools)
-├── rag.py                  # RAG pipeline (multi-file loader + FAISS)
-├── tools.py                # Tool definitions
-├── documents/              # Your knowledge base (PDF, DOCX, etc.)
-├── .env                    # API keys
-├── requirements.txt        # Required packages
-├── research_output.txt     # Generated output file
-└── README.md
-```
-
----
-
-## ⚙️ Installation
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/PruthvidharReddy01/research_bot.git
-cd research_bot
-```
-
----
-
-### 2. Create Virtual Environment
-
-### Windows
-
-```bash
-python -m venv venv
-venv\Scripts\activate
-```
-
-### Mac/Linux
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-```
-
----
-
-### 3. Install Requirements
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 📦 requirements.txt
-
-Create a file named `requirements.txt` and add:
-
-```txt
-langchain
-langchain-core
-langchain-community
-langchain-google-genai
-langchain-classic
-langchain-text-splitters
-python-dotenv
-pydantic
-wikipedia
-duckduckgo-search
-arxiv
-faiss-cpu
-pypdf
-docx2txt
-python-docx
-openpyxl
-pandas
-```
-
-Then run:
-
-```bash
-pip install -r requirements.txt
-```
-
----
-
-## 🔑 Environment Variables
-
-Create a `.env` file in the root folder:
-
-```env
-GOOGLE_API_KEY=your_google_gemini_api_key_here
-```
-
-You can get your Gemini API key from:
-
-**Google AI Studio**
-
----
-
-## ▶️ Run the Project
-
-```bash
-python main.py
-```
+- Ask research questions
+- Upload documents
+- Summarize meeting transcripts
+- Retrieve insights from uploaded files
+- Schedule meetings
+- Generate Google Meet links
 
 Example:
 
-```bash
-Enter your research query: Summarize my uploaded document
+```text
+@Bot Summarize this uploaded transcript
+```
+
+```text
+@Bot Explain the key insights from the Q3 meeting
 ```
 
 ---
 
-## 💡 Example Use Cases
+## 📄 Meeting Transcript Analytics
 
-### 📄 Document-Based (RAG)
+The bot can analyze uploaded meeting transcripts and provide:
 
-```bash
-Summarize my uploaded document
-Explain key concepts from my notes
-What are the main findings in my file?
+### Supported Outputs
+
+- Executive Summary
+- Key Decisions
+- Action Items
+- Risks
+- Follow-up Recommendations
+- Business Insights
+
+Example:
+
+```text
+@Bot Summarize this transcript and provide business insights
 ```
 
-### 🌐 General Knowledge
+The transcript is automatically:
 
-```bash
-What is Artificial Intelligence?
-Explain supply chain optimization
-Who is the Prime Minister of India?
+1. Downloaded from Slack
+2. Added into the RAG pipeline
+3. Indexed using FAISS
+4. Retrieved during question answering
+
+---
+
+## 📅 Meeting Scheduling
+
+The bot can schedule meetings directly from Slack using natural language.
+
+Example:
+
+```text
+@Bot Schedule a meeting with Marc tomorrow at 4pm
 ```
 
-### 🔥 Hybrid (Best Use Case)
+The bot automatically:
 
-```bash
-Compare my uploaded notes with current AI trends
-Use my documents and research papers to explain this topic
+- Detects scheduling intent
+- Finds attendees in the Slack workspace
+- Extracts email addresses
+- Parses dates and times
+- Creates Google Calendar events
+- Generates Google Meet links
+
+---
+
+## 🎥 Automatic Google Meet Generation
+
+Whenever a meeting is scheduled, the bot automatically creates:
+
+- Google Calendar Event
+- Google Meet Link
+- Attendee Invitation
+
+Example Output:
+
+```text
+Meeting Created
+
+Name: Marc
+Email: marc@example.com
+
+Time:
+2026-06-15 10:00 AM
+
+Meet Link:
+https://meet.google.com/xxxx-xxxx-xxx
 ```
 
 ---
 
-## 📄 Output Example
+## 🧠 Intelligent Meeting Topic Extraction
 
-The bot automatically stores results in:
+The bot can understand meeting topics from natural language.
 
-```bash
-research_output.txt
+Example:
+
+```text
+@Bot Schedule a meeting with Marc about Q4 Planning on June 15th at 10am
 ```
 
-Example output:
+Automatically extracts:
 
-```txt
-Topic: Artificial Intelligence
+```text
+Attendee:
+Marc
 
-Summary:
-Artificial Intelligence (AI) refers to systems that simulate human intelligence...
+Topic:
+Q4 Planning
 
-Sources:
-- Wikipedia
-- Arxiv
-- Internal Documents
+Date:
+June 15th
 
-Tools Used:
-- Wikipedia Tool
-- DuckDuckGo Search
+Time:
+10:00 AM
+```
+
+The meeting topic becomes the Calendar Event title.
+
+---
+
+## 👥 Slack Workspace User Discovery
+
+The bot can retrieve Slack workspace users and automatically identify meeting attendees.
+
+Example:
+
+```text
+Schedule a meeting with Marc tomorrow
+```
+
+The bot:
+
+1. Searches Slack workspace members
+2. Finds Marc
+3. Retrieves email
+4. Creates invitation
+
+No manual email entry is required.
+
+---
+
+## 🏗 Updated System Architecture
+
+```text
+Slack User
+    │
+    ▼
+Slack App
+    │
+    ▼
+Intent Detection
+    │
+ ┌──┴─────────────┐
+ │                │
+ ▼                ▼
+Research       Meeting
+Workflow       Workflow
+ │                │
+ ▼                ▼
+RAG + Tools   Calendar API
+ │                │
+ ▼                ▼
+Gemini AI     Google Meet
+ │                │
+ └──────┬─────────┘
+        ▼
+Slack Response
 ```
 
 ---
 
-## 🧠 What I Learned
+## 🔧 Additional Technologies Used
 
-This project helped me understand:
+The project now additionally uses:
 
-* How AI Agents work behind the scenes
-* Prompt Engineering and prompt templates
-* Tool Calling with LangChain
-* **Retrieval-Augmented Generation (RAG)**
-* Vector databases (FAISS)
-* Multi-file document processing
-* Structured output parsing
-* Building real-world AI applications from scratch
-
-This is just the beginning — I plan to build more advanced AI Agents and complex chatbots that solve real-world problems and can potentially grow into startup-level products.
+- Slack Bolt SDK
+- Flask
+- Google Calendar API
+- Google OAuth
+- Google Meet Integration
+- DateParser
 
 ---
 
-## 🔮 Future Improvements
+## 📂 Additional Project Files
 
-* Add Memory to the chatbot
-* Persistent vector database (avoid recomputation)
-* PDF report generation
-* Web UI using Streamlit or React
-* Multi-Agent workflow
-* Database storage
-* User authentication
-* Advanced research summarization
-* Startup-ready production version
+New files introduced:
+
+```text
+meeting.py
+```
+
+Handles:
+
+- Meeting intent processing
+- Attendee extraction
+- Date extraction
+- Topic extraction
+
+```text
+calendar_service.py
+```
+
+Handles:
+
+- Google Calendar authentication
+- Event creation
+- Google Meet generation
 
 ---
 
-## 🤝 Contributing
+## 📌 Example End-to-End Workflow
 
-Contributions are always welcome.
+### Research Workflow
 
-Feel free to fork the project, improve it, and submit a pull request.
+```text
+User uploads transcript
+        ↓
+Slack
+        ↓
+RAG Indexing
+        ↓
+Gemini Analysis
+        ↓
+Executive Summary
+        ↓
+Slack Response
+```
+
+### Meeting Workflow
+
+```text
+User:
+Schedule a meeting with Marc about Q4 Planning tomorrow at 4pm
+
+        ↓
+
+Intent Detection
+
+        ↓
+
+Attendee Extraction
+
+        ↓
+
+Email Discovery
+
+        ↓
+
+Date Parsing
+
+        ↓
+
+Google Calendar Event
+
+        ↓
+
+Google Meet Link
+
+        ↓
+
+Slack Response
+```
 
 ---
 
-## 📌 GitHub Repository
+## 🎯 Real-World Use Cases
 
-[https://github.com/PruthvidharReddy01/research_bot.git](https://github.com/PruthvidharReddy01/research_bot.git)
+- Internal Knowledge Assistant
+- Meeting Transcript Analyzer
+- Research Copilot
+- Follow-up Meeting Scheduler
+- Team Productivity Assistant
+- Business Insight Generator
+- Slack Workplace Automation
 
 ---
 
-## ⭐ Final Note
+## 🚀 Current Project Scope
 
-AI Agents + RAG systems are the future.
+This project now combines:
 
-This project may look simple — but it represents a powerful concept of combining:
+- Large Language Models (Gemini)
+- Retrieval-Augmented Generation (RAG)
+- Tool Calling
+- Slack Integration
+- Google Calendar Automation
+- Google Meet Generation
+- Document Intelligence
+- Meeting Analytics
 
-👉 **LLMs + Tools + Knowledge Bases**
-
-Small project today.
-Bigger vision tomorrow. 🚀
+making it a complete AI-powered workplace assistant rather than a traditional chatbot.
