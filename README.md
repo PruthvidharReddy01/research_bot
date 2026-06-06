@@ -1,317 +1,327 @@
-# 🚀 New Features Added
+# Slack Research Analytics Bot 🚀
 
-The project has evolved from a standalone Research Bot into a fully integrated **Slack Research Analytics Assistant**.
+An AI-powered **Slack-integrated Research Analytics Assistant** built using **Python, LangChain, Google Gemini, FAISS, Slack API, and Google Calendar API**.
 
-In addition to document-based research and external knowledge retrieval, the bot now supports:
+The project combines:
 
-- Slack Workspace Integration
-- Meeting Transcript Analysis
-- Google Calendar Scheduling
-- Automatic Google Meet Generation
-- Slack User Discovery
-- Meeting Topic Extraction
-- Natural Language Meeting Scheduling
+* 📄 Retrieval-Augmented Generation (RAG)
+* 🌐 External Research Tools
+* 💬 Slack Workspace Integration
+* 📅 Google Calendar Automation
+* 🎥 Automatic Google Meet Generation
 
----
-
-## 💬 Slack Integration
-
-The bot is fully integrated with Slack and can be interacted with directly through mentions.
-
-Users can:
-
-- Ask research questions
-- Upload documents
-- Summarize meeting transcripts
-- Retrieve insights from uploaded files
-- Schedule meetings
-- Generate Google Meet links
-
-Example:
-
-```text
-@Bot Summarize this uploaded transcript
-```
-
-```text
-@Bot Explain the key insights from the Q3 meeting
-```
+Users can upload documents directly in Slack, analyze meeting transcripts, perform research, extract business insights, and schedule meetings without leaving Slack.
 
 ---
 
-## 📄 Meeting Transcript Analytics
+## ✨ Features
 
-The bot can analyze uploaded meeting transcripts and provide:
+### 📄 Retrieval-Augmented Generation (RAG)
 
-### Supported Outputs
+* Uses uploaded documents as a knowledge base
+* Supports:
 
-- Executive Summary
-- Key Decisions
-- Action Items
-- Risks
-- Follow-up Recommendations
-- Business Insights
+  * PDF
+  * DOCX
+  * TXT
+  * CSV
+  * XLSX
+* FAISS Vector Database
+* Semantic Retrieval using Gemini Embeddings
+
+### 📊 Research Analytics
+
+* Document Summarization
+* Meeting Transcript Analysis
+* Business Insight Extraction
+* Action Item Identification
+* Key Decision Extraction
+* Executive Summaries
+
+### 🌐 External Research Tools
+
+* Wikipedia Search
+* DuckDuckGo Search
+* Calculator Tool
+
+### 💬 Slack Integration
+
+* Mention-based interaction
+* Slack File Upload Support
+* Automatic Document Ingestion
+* Workspace User Discovery
+* Real-time Research Assistance
+
+### 📅 Meeting Scheduling
+
+The bot can schedule meetings directly from Slack.
 
 Example:
 
-```text
-@Bot Summarize this transcript and provide business insights
-```
-
-The transcript is automatically:
-
-1. Downloaded from Slack
-2. Added into the RAG pipeline
-3. Indexed using FAISS
-4. Retrieved during question answering
-
----
-
-## 📅 Meeting Scheduling
-
-The bot can schedule meetings directly from Slack using natural language.
-
-Example:
-
-```text
 @Bot Schedule a meeting with Marc tomorrow at 4pm
-```
 
-The bot automatically:
+Features:
 
-- Detects scheduling intent
-- Finds attendees in the Slack workspace
-- Extracts email addresses
-- Parses dates and times
-- Creates Google Calendar events
-- Generates Google Meet links
+* Natural Language Scheduling
+* Attendee Extraction
+* Email Discovery from Slack Workspace
+* Date & Time Parsing
+* Google Calendar Event Creation
+* Automatic Invitation Sending
+* Google Meet Link Generation
 
----
-
-## 🎥 Automatic Google Meet Generation
-
-Whenever a meeting is scheduled, the bot automatically creates:
-
-- Google Calendar Event
-- Google Meet Link
-- Attendee Invitation
-
-Example Output:
-
-```text
-Meeting Created
-
-Name: Marc
-Email: marc@example.com
-
-Time:
-2026-06-15 10:00 AM
-
-Meet Link:
-https://meet.google.com/xxxx-xxxx-xxx
-```
-
----
-
-## 🧠 Intelligent Meeting Topic Extraction
-
-The bot can understand meeting topics from natural language.
+### 🎯 Intelligent Topic Extraction
 
 Example:
 
-```text
 @Bot Schedule a meeting with Marc about Q4 Planning on June 15th at 10am
-```
 
 Automatically extracts:
 
-```text
-Attendee:
-Marc
+* Attendee: Marc
+* Topic: Q4 Planning
+* Date: June 15th
+* Time: 10:00 AM
 
-Topic:
-Q4 Planning
-
-Date:
-June 15th
-
-Time:
-10:00 AM
-```
-
-The meeting topic becomes the Calendar Event title.
+The topic becomes the Google Calendar event title.
 
 ---
 
-## 👥 Slack Workspace User Discovery
+## 🛠 Tech Stack
 
-The bot can retrieve Slack workspace users and automatically identify meeting attendees.
-
-Example:
-
-```text
-Schedule a meeting with Marc tomorrow
-```
-
-The bot:
-
-1. Searches Slack workspace members
-2. Finds Marc
-3. Retrieves email
-4. Creates invitation
-
-No manual email entry is required.
+* Python
+* LangChain
+* Google Gemini API
+* FAISS Vector Database
+* Slack Bolt SDK
+* Flask
+* Google Calendar API
+* Google OAuth
+* DuckDuckGo Search
+* Wikipedia API
+* Pydantic
+* DateParser
+* dotenv
 
 ---
 
-## 🏗 Updated System Architecture
+## 📂 Project Structure
 
-```text
+research_bot/
+
+├── main.py
+
+├── rag.py
+
+├── tools.py
+
+├── meeting.py
+
+├── calendar_service.py
+
+├── documents/
+
+├── uploaded_docs/
+
+├── requirements.txt
+
+├── README.md
+
+└── .env
+
+---
+
+## ⚙️ Installation
+
+### Clone Repository
+
+git clone https://github.com/PruthvidharReddy01/research_bot.git
+
+cd research_bot
+
+### Create Virtual Environment
+
+Windows
+
+python -m venv venv
+
+venv\Scripts\activate
+
+Linux / Mac
+
+python3 -m venv venv
+
+source venv/bin/activate
+
+### Install Requirements
+
+pip install -r requirements.txt
+
+---
+
+## 🔑 Environment Variables
+
+Create a `.env` file:
+
+GOOGLE_API_KEY=
+
+SLACK_BOT_TOKEN=
+
+SLACK_SIGNING_SECRET=
+
+---
+
+## 📅 Google Calendar Setup
+
+1. Create a Google Cloud Project
+2. Enable Google Calendar API
+3. Create OAuth Desktop Credentials
+4. Download credentials.json
+5. Place credentials.json in the project root
+6. Authenticate once to generate token.pickle
+
+---
+
+## 💬 Slack Setup
+
+Required OAuth Scopes:
+
+* app_mentions:read
+* chat:write
+* files:read
+* users:read
+* channels:history
+
+Enable Event Subscriptions:
+
+* app_mention
+
+Install the app into your workspace.
+
+---
+
+## ▶️ Run the Project
+
+python main.py
+
+---
+
+## 💡 Example Commands
+
+### Research
+
+@Bot Summarize this uploaded transcript
+
+@Bot Give meaningful insights from the Q3 meeting
+
+@Bot What are the key decisions made in this document?
+
+### Meeting Scheduling
+
+@Bot Schedule a meeting with Marc tomorrow at 4pm
+
+@Bot Schedule a meeting with Marc about Revenue Planning on June 15th at 10am
+
+---
+
+## 📌 Example Meeting Response
+
+Meeting Created
+
+Topic: Revenue Planning
+
+Name: Marc
+
+Email: [marc@example.com](mailto:marc@example.com)
+
+Time: 2026-06-15 10:00:00
+
+Meet Link:
+
+https://meet.google.com/xxxx-xxxx-xxx
+
+---
+
+## 🏗 System Architecture
+
 Slack User
-    │
-    ▼
+
+↓
+
 Slack App
-    │
-    ▼
-Intent Detection
-    │
- ┌──┴─────────────┐
- │                │
- ▼                ▼
-Research       Meeting
-Workflow       Workflow
- │                │
- ▼                ▼
-RAG + Tools   Calendar API
- │                │
- ▼                ▼
-Gemini AI     Google Meet
- │                │
- └──────┬─────────┘
-        ▼
-Slack Response
-```
 
----
-
-## 🔧 Additional Technologies Used
-
-The project now additionally uses:
-
-- Slack Bolt SDK
-- Flask
-- Google Calendar API
-- Google OAuth
-- Google Meet Integration
-- DateParser
-
----
-
-## 📂 Additional Project Files
-
-New files introduced:
-
-```text
-meeting.py
-```
-
-Handles:
-
-- Meeting intent processing
-- Attendee extraction
-- Date extraction
-- Topic extraction
-
-```text
-calendar_service.py
-```
-
-Handles:
-
-- Google Calendar authentication
-- Event creation
-- Google Meet generation
-
----
-
-## 📌 Example End-to-End Workflow
-
-### Research Workflow
-
-```text
-User uploads transcript
-        ↓
-Slack
-        ↓
-RAG Indexing
-        ↓
-Gemini Analysis
-        ↓
-Executive Summary
-        ↓
-Slack Response
-```
-
-### Meeting Workflow
-
-```text
-User:
-Schedule a meeting with Marc about Q4 Planning tomorrow at 4pm
-
-        ↓
+↓
 
 Intent Detection
 
-        ↓
+↓
 
-Attendee Extraction
+Research Workflow OR Meeting Workflow
 
-        ↓
+↓
 
-Email Discovery
+Gemini + RAG + Tools
 
-        ↓
+↓
 
-Date Parsing
+Google Calendar (if scheduling)
 
-        ↓
+↓
 
-Google Calendar Event
+Google Meet Generation
 
-        ↓
-
-Google Meet Link
-
-        ↓
+↓
 
 Slack Response
-```
 
 ---
 
-## 🎯 Real-World Use Cases
+## 🔮 Future Improvements
 
-- Internal Knowledge Assistant
-- Meeting Transcript Analyzer
-- Research Copilot
-- Follow-up Meeting Scheduler
-- Team Productivity Assistant
-- Business Insight Generator
-- Slack Workplace Automation
+* Automatic Meeting Agenda Generation
+* Follow-up Meeting Scheduling from Transcripts
+* Multi-attendee Scheduling
+* Persistent Vector Database
+* Memory-enabled Conversations
+* Multi-Agent Workflows
+* React Dashboard
+* Production Deployment
 
 ---
 
-## 🚀 Current Project Scope
+## 🧠 What I Learned
 
-This project now combines:
+This project helped me understand:
 
-- Large Language Models (Gemini)
-- Retrieval-Augmented Generation (RAG)
-- Tool Calling
-- Slack Integration
-- Google Calendar Automation
-- Google Meet Generation
-- Document Intelligence
-- Meeting Analytics
+* AI Agents
+* Prompt Engineering
+* Tool Calling
+* Retrieval-Augmented Generation (RAG)
+* Vector Databases
+* Slack API Integration
+* Google Calendar Automation
+* Google Meet Generation
+* Document Intelligence Systems
+* Real-world AI Application Development
 
-making it a complete AI-powered workplace assistant rather than a traditional chatbot.
+---
+
+## 🤝 Contributing
+
+Contributions are welcome.
+
+Feel free to fork the repository and submit pull requests.
+
+---
+
+## ⭐ Final Note
+
+This project combines:
+
+👉 LLMs + RAG + Tools + Slack + Google Calendar + Google Meet
+
+to create an AI-powered workplace assistant capable of research, analytics, document intelligence, and meeting automation.
+
+Small project today.
+
+Bigger vision tomorrow. 🚀
